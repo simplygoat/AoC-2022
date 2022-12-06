@@ -42,3 +42,8 @@ def day_5_crane(crates, commands, simple):
 def day_5(content):
     print(day_5_crane(*group(content), True))
     print(day_5_crane(*group(content), False))
+    
+def day_6(content):
+    find = lambda s,l: [len({*s[index:index+l]}) for index in range(len(s)-l)].index(l)+l
+    print(find(content[0], 4))
+    print(find(content[0], 14))
