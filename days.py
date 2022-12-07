@@ -54,7 +54,7 @@ def day_7(content, path = [], sizes = {}):
             path = (path + [parts[2]] if parts[2] != '..' else path[:-1])
         elif parts[0].isnumeric():
             for fullPath in ['/'+'/'.join(path[:i]) for i in range(len(path)+1)]:
-                sizes.update({fullPath: int(parts[0]) if sizes.get(fullPath) is None else sizes[fullPath] + int(parts[0])})
+                sizes[fullPath] = int(parts[0]) if sizes.get(fullPath) is None else sizes[fullPath] + int(parts[0])
     print(sum([size for size in sizes.values() if size <= 100000]))
     print(min([size for size in sizes.values() if size > sizes['/']-40000000]))
     
