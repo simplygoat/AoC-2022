@@ -58,3 +58,17 @@ def day_7(content, path = [], sizes = {}):
     print(sum([size for size in sizes.values() if size <= 100000]))
     print(min([size for size in sizes.values() if size > sizes['/']-40000000]))
     
+def day_9_rope(content, length=2, direction=['U','R','D','L'], diff=[(0,-1),(1,0),(0,1),(-1,0)]):
+    rope, visited = [[(0,0) for _ in range(length)], set()]
+    norm = lambda n: 0 if n == 0 else int(n/abs(n))
+    follow = lambda f,b: (b[0]+norm(f[0]-b[0]), b[1]+norm(f[1]-b[1])) if abs(f[0]-b[0]) > 1 or abs(f[1]-b[1]) > 1 else b
+    for moveDir, moveCount in [line.split(' ') for line in content]:
+        for md in [diff[direction.index(moveDir)] for _ in range(int(moveCount))]:
+            for i in range(len(rope)):
+                rope[i] = (rope[0][0]+md[0], rope[0][1]+md[1]) if i == 0 else follow(rope[i-1], rope[i])
+            visited.add(','.join([str(i) for i in rope[len(rope)-1]]))
+    return len(visited)
+
+def day_9(content):
+    print(day_9_rope(content))
+    print(day_9_rope(content, 10))
