@@ -72,3 +72,22 @@ def day_9_rope(content, length=2, direction=['U','R','D','L'], diff=[(0,-1),(1,0
 def day_9(content):
     print(day_9_rope(content))
     print(day_9_rope(content, 10))
+    
+ def day_17(content, p=[[(0,4)],[(1,2),(0,3),(1,2)],[(0,3),(2,3),(2,3)],[(0,1),(0,1),(0,1),(0,1)],[(0,2),(0,2)]], ls=0, i=-1, grid=[], ih=0, ib=[], sb=[], t=1000000000000):
+    mayPut = lambda g,p,xO,yO: sum([len([x for x,y in _ if g[y+yO][x+xO]=='#']) for _ in [[[x,y] for x in range(*p[y])] for y in range(min(len(g)-yO,len(p)))]])==0
+    for step in itertools.cycle([0,1,2,3,4]):
+        if i>=0 and ((ih:=ih+i)>=0 and step == 0):
+            if ih in ib and (ih:=ib.index(ih)) >= 0:
+                print(sum(sb[:ih])+(sum(sb[ih:])*((t-ih*5)//(len(sb[ih:])*5)))+sum(sb[ih:][:((t-ih*5)%(len(sb[ih:])*5))//5]))
+                return
+            ih,ls,_,_ = [0, len(grid), ib.append(ih), sb.append(len(grid)-ls)]
+        piece, width, x, ih = [p[step], max([t[1] for t in p[step]]), 2, 0 if step == 0 else ih*len(content[0])]
+        for y in range(len(grid)+3,-2,-1):
+            if y==-1 or (y<len(grid) and not mayPut(grid, piece, x, y)):
+                grid.extend([['.']*7 for _ in range(max(0,(y+1+len(piece))-len(grid)))])
+                for yOff in range(len(piece)):
+                    for xOff in range(*piece[yOff]):
+                        grid[y+1+yOff][x+xOff] = '#'
+                break
+            xOff = -1 if content[0][(i:=i+1 if i+1<len(content[0]) else 0)]=='<' else 1
+            x = (x+xOff) if (x+xOff)>=0 and (x+xOff+width)<=7 and (y>=len(grid) or mayPut(grid,piece,x+xOff,y)) else x
