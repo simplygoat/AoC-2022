@@ -73,7 +73,7 @@ def day_9(content):
     print(day_9_rope(content))
     print(day_9_rope(content, 10))
     
- def day_17(content, p=[[(0,4)],[(1,2),(0,3),(1,2)],[(0,3),(2,3),(2,3)],[(0,1),(0,1),(0,1),(0,1)],[(0,2),(0,2)]], ls=0, i=-1, grid=[], ih=0, ib=[], sb=[], t=1000000000000):
+def day_17(content, p=[[(0,4)],[(1,2),(0,3),(1,2)],[(0,3),(2,3),(2,3)],[(0,1),(0,1),(0,1),(0,1)],[(0,2),(0,2)]], ls=0, i=-1, grid=[], ih=0, ib=[], sb=[], t=1000000000000):
     mayPut = lambda g,p,xO,yO: sum([len([x for x,y in _ if g[y+yO][x+xO]=='#']) for _ in [[[x,y] for x in range(*p[y])] for y in range(min(len(g)-yO,len(p)))]])==0
     for step in itertools.cycle([0,1,2,3,4]):
         if i>=0 and ((ih:=ih+i)>=0 and step == 0):
